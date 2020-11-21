@@ -24,6 +24,7 @@
 # Daemon versions:
 #   Syslog-ng: 2.1 - 3.22.1
 #   Rsyslog: v8
+import utils.session
 import subprocess
 import time
 import sys
