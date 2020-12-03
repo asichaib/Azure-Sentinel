@@ -47,6 +47,14 @@ $CustomerId = $env:workspaceId
 $SharedKey = $env:workspaceKey
 $TimeStampField = "DateValue"
 
+if($env:azureEnvironment -eq "AzureUSGovernment") 
+{
+    $logAnalyticsApiUri = "https://" + $CustomerId + ".ods.opinsights.azure.us"
+}else
+{
+     $logAnalyticsApiUri = "https://" + $CustomerId + ".ods.opinsights.azure.com"
+}
+
 # Function to build the Authorization signature for the Log Analytics Data Connector API
 Function Build-Signature ($customerId, $sharedKey, $date, $contentLength, $method, $contentType, $resource)
 {
@@ -84,7 +92,7 @@ Function Post-LogAnalyticsData($customerId, $sharedKey, $body, $logType)
         -method $method `
         -contentType $contentType `
         -resource $resource
-    $uri = "https://" + $customerId + ".ods.opinsights.azure.com" + $resource + "?api-version=2016-04-01"
+    $uri = $logAnalyticsApiUri + $resource + "?api-version=2016-04-01"
 
     $headers = @{
         "Authorization" = $signature;
